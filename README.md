@@ -1,70 +1,118 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Setup
+* Get your api key from the themoviedb.org
+* Fork, Clone, yarn install, yarn start
 
-## Available Scripts
+### Do
 
-In the project directory, you can run:
+### Components
+* Create functional components as defined by comments in the jsx in App.js,  such as  {/*  <Navigation>   */}
+* Import and use components in App.js
+* Navigation.js
+* UserProfile.js
 
-### `npm start`
+### State
+* In state.js file
+* Create our state object with properties
+    * searchResults: []
+    * myMovieList: []
+* export state object
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Reducers
+* In reducers/index.js
+* Create reducers functions for all state
+* Parameters - state, action
+* Remember default value
+* Import combineReducers from redux
+* Combine reducers and export
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Create Reducers
+* myMovieList
+    * Look for the action “MY_MOVIE_LIST_LOADED”
+    * return the value
+* searchResults
+    * Look for the action “SEARCH_RESULTS_LOADED”
+    * return the value
 
-### `npm test`
+### Store
+* Create our standard store.js file
+* Use redux-thunk middleware
+* Import reducers
+* create store and export
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### index.js 
+* import Provider and wrap App 
+* import store and assign to store prop
 
-### `npm run build`
+### Actions
+* remember to export your actions
+* loadMyMovieList()
+    * type = “LOAD_MY_MOVIE_LIST”
+    * make fetch call to “/movies”
+    * on complete, dispatch to myMovieListLoaded(movies)
+* myMovieListLoaded(movies)
+    * type = “MY_MOVIE_LIST_LOADED”
+    * value = movies 
+* loadSearch(searchTerm)
+    * type = “LOAD_SEARCH”
+    * make fetch call to https://api.themoviedb.org/3/search/multi?query=searchTerm&api_key=yourkey
+    * be sure to put your api key
+    * on complete, dispatch to searchLoaded(movies)
+* searchLoaded(movies)
+    * type = “SEARCH_RESULTS_LOADED”
+    * value = make sure to assign the value of movies.results to get the array of movies from movie db
+* saveMyMovie(movie)
+    * make fetch POST to “/movies”
+    * on complete dispatch to loadMyMovieList()
+* removeMyMovie(id)
+    * make a fetch DELETE to “/movies/” + id
+    * on complete dispatch to loadMyMovieList()
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Create Containers
+* import connect from react-redux
+* mapStateToProps
+* mapDispatchToProps
+* connect and export
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### SearchBoxContainer.js
+* import SearchBox
+* import action `loadSearch`
+* mapDispatchToProps for this action
+* Determine which props to map to based on the props that are already coded into the SearchBox component
 
-### `npm run eject`
+### AppContainer.js
+* import App
+* import action `loadMyMovieList`
+* mapStateToProps for props `searchResults` and `myMovieList` to state of the same name
+* mapDisptachToProps for `loadMyMovieList`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### ListToggleContainer
+* import ListToggle
+* import action `saveMyMovie` and `removeMyMovie`
+* mapDisptachToProps for `saveMyMovie` and `removeMyMovie`
+* Change Item.js to use ListToggleContainer instead of ListToggle
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### SearchBox.js
+* In the constructor assign a state property with an object with key “searchTerm”, set to blank string “”
+* Add onChange to the input element
+* on change setState for searchTerm to the value from the input
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Item.js
+* Switch out use of ListToggle for use of ListToggleContainer
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### App.js
+* Add componentDidMount method and call loadMyMovieList in here.
+* Switch out use of SearchBox for use of SearchBoxContainer
+* Add PropTypes for searchResults and myMovieList
 
-## Learn More
+### index.js
+* Switch out use of App for AppContainer
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Points
+* Base - 25 
+* There are no runtime errors - 15
+* My Movie list shows all movies from your database - 15
+* Typing into the search text box and hitting enter shows a list of movies in the search results - 15
+* Click one of the search results adds that movie to My Movie list - 15
+* Click one of the movies in My Movie list removes it from the list - 15
